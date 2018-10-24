@@ -11,12 +11,19 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.models.auth.In;
+import org.apache.commons.io.IOUtils;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import cn.ck.controller.AbstractController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.*;
 
 @Controller
@@ -195,6 +202,39 @@ if (isScored){
         map.put("key",key);
         map.put("result",page);
         return map;
+    }
+
+    /**
+     * 文件下载
+     * @param fileName 文件的名字
+     */
+    //这是一个下载的函数
+    @RequestMapping(value = "/down",method = RequestMethod.GET)
+    public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
+        System.out.println("in--down---and--filename--is:"+fileName);
+        try {
+            //存放地址
+            String realPath = "E:\\ChuangKeFile\\Ori";
+            //获得服务器端某个文件的完整路径
+            String fullPath = realPath + File.separator + fileName;
+            //设置响应
+            response.setContentType("application/force-download");
+            //设置响应头信息
+            response.setHeader("Content-Disposition", "attachment;fileName="+fileName);// 设置文件名
+            //文件名有中文时设置编码
+            response.setHeader("Content-Disposition", "attachment;filename="+new String(fileName.getBytes("GBK"),"ISO-8859-1"));
+
+            File downloadFile = new File(fullPath);
+            FileInputStream inputStream = new FileInputStream(downloadFile);
+            OutputStream outputStream =  response.getOutputStream();
+            IOUtils.copy(inputStream, outputStream);
+            response.flushBuffer();
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 /*    @RequestMapping("insertColOri")

@@ -144,7 +144,7 @@
 					<div class="project-actions">
 
 						<span><a href="javascript:void(0)" @click="colori(curOri.origId)"><i v-if="show1" style="color:red;" class="fa fa-star"></i><i v-if="show2" class="fa fa-star"></i>收藏</a></span>
-						<span style="margin-left: 20px;"><a  href="javascript:void(0)" @click="download(curOri.origName)"><img src="/static/img/img_hhm/download.png"/>下载</a></span>
+						<span style="margin-left: 20px;"><a  href="javascript:void(0)" @click="download(curOri.origPath)"><img src="/static/img/img_hhm/download.png"/>下载</a></span>
 						<!--:href="'/file/down?fileName='+curOri.origName+'.zip'"-->
 
 					</div>
@@ -456,7 +456,8 @@
                            alert("请先登录！")
 					   return;}
 					   else{
-					       window.location.href="/file/down?fileName='name'.zip"
+
+					       window.location.href="/original/down?fileName="+name;
 					   }
 
 			},

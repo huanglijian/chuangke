@@ -28,6 +28,7 @@
         <association property="users" javaType="cn.ck.entity.Users">
             <id column="user_id" property="userId"></id>
             <result column="user_name" property="userName"></result>
+            <result column="user_img" property="userImg"></result>
         </association>
     </resultMap>
 
