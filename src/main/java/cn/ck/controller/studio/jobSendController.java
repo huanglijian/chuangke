@@ -37,6 +37,7 @@ public class jobSendController {
     @Autowired
     private UsersService usersService;
 
+//    发送招聘
     @PostMapping("/jobsend")
     public String jobsend(String jobName, int jobNum, String jobMoney, String jobDemand, String jobIntro) {
         Jobs j = new Jobs();
@@ -121,6 +122,7 @@ public class jobSendController {
             Date date = new Date();
             users.setUserEntrytime(date);
             boolean b = usersService.update(users, new EntityWrapper<Users>().eq("user_id", uid));
+
 
         }
 

@@ -291,7 +291,9 @@
                             <!--<p>{{j.studio.stuImg}}</p>-->
                             <!--<img v-if="j.studio && j.studio.stuImg" :src="'/file/showImg/'+j.studio.stuImg"/>-->
                             <!--<img src="/static/img/img_hlj/alibaba2.png"/>-->
-                            <img :src="'/file/showImg/'+j.studio.stuImg"/>
+                            <img :src="'/file/showImg/'+j.studio.stuImg"
+                                 style="width: 250px;height: 200px"
+                            />
                         </div>
                         <div class="studioIntro">
                             <h4><a href="mes" class="color" target="_blank" :href="'/ForJob/mes/'+j.jobs.jobId">{{j.studio.stuName}}</a>
@@ -310,9 +312,20 @@
                         <div class="join">
                             <div class="joinUp"></div>
                             <div class="joinM">
-                                <a class="btn btn-block btn-primary compose-mail but" v-if="!isPromul"
-                                   :href="'/ForJob/mes/'+j.jobs.jobId"
-                                   target="_blank">申请加入</a>
+
+                                <div v-if="!isPromul">
+                                    <div v-if="!isLogined">
+                                        <a class="btn btn-block btn-primary compose-mail but"
+                                           href="/login"
+                                           >申请加入</a>
+                                    </div>
+                                    <div v-if="isLogined">
+                                        <a class="btn btn-block btn-primary compose-mail but"
+                                           :href="'/ForJob/mes/'+j.jobs.jobId"
+                                           target="_blank">申请加入</a>
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="joinD"></div>
                         </div>
@@ -436,15 +449,19 @@
     </div>
 
     <script type="text/javascript">
+
+
         // 招聘信息渲染
         var vm = new Vue({
             el: '#jobsul',
             data: {
                 job: '',
-                isPromul : ''
+                isPromul : '',
+                isLogined:'',
             },
             created: function () {
                 this.isPromul = nav_vue.isPromul;
+                this.isLogined = nav_vue.isLogined;
             },
             methods: {}
         });

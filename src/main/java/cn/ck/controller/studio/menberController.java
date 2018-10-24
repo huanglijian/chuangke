@@ -39,6 +39,7 @@ public class menberController {
 //        return "redirect:/studioPage/memberInfo";
 //    }
 
+    //解雇工作室成员
     @GetMapping("/delete/{juid}")
     public String memberdel(@PathVariable("juid")int juid){
         System.out.println("---------juid "+juid);
@@ -50,8 +51,8 @@ public class menberController {
         users = usersService.selectById(userid);
         users.setUserStudio(null);
 //        users.setUserEntrytime(null);
-        Date date = new Date();
-        users.setUserQuittme(date);
+        users.setUserEntrytime(null);
+        users.setUserQuittme(null);
         System.out.println("----users "+users);
         boolean b = usersService.updateAllColumnById(users);
 //        boolean b = usersService.update(users,new EntityWrapper<Users>().eq("user_id",userid));

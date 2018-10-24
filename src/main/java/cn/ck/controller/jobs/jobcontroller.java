@@ -50,14 +50,14 @@ public class jobcontroller extends AbstractController {
         return "jobs/search";
     }
 
+    //        获得所有的招聘信息
     @PostMapping("/search/jobs/{pagenum}")
     @ResponseBody
     public ResponseBo searchJson(@PathVariable("pagenum")int pagenum) {
         System.out.println("----pagenum "+pagenum);
-        //        获得所有的招聘信息
 //        调用分页插件
         PageHelper.startPage(pagenum, 5);
-        List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>());
+        List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>().orderBy("job_creattime",false));
         PageInfo<Jobs> jobPageInfo=new PageInfo<>(jobs);
 
         List<JobsStudio> jobsStudios = new ArrayList<JobsStudio>();
@@ -127,7 +127,7 @@ public class jobcontroller extends AbstractController {
         System.out.println("----pagenum "+pagenum);
         //根据职位搜索所有的招聘信息
         PageHelper.startPage(pagenum, 8);
-        List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_name", nei));
+        List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_name", nei).orderBy("job_creattime",false));
         System.out.println("++++"+jobs);
 
         PageInfo<Jobs> jobPageInfo=new PageInfo<>(jobs);
@@ -218,18 +218,22 @@ public class jobcontroller extends AbstractController {
             if (money.equals("")) {
                 if (time.equals("365")||time.equals("0")){
                     System.out.println("---------time: "+time);
-                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_creattime",date).like("job_name",nei));
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_creattime",date).like("job_name",nei)
+                            .orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     System.out.println("---------time: "+time);
-                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_creattime",date).like("job_name",nei));
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_creattime",date).like("job_name",nei)
+                            .orderBy("job_creattime",false));
                 }
             } else if (money.equals("2")) {
                 if (time.equals("365")||time.equals("0")){
-                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).lt("job_creattime",date).like("job_name",nei));
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).lt("job_creattime",date).
+                            like("job_name",nei).orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
-                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).gt("job_creattime",date).like("job_name",nei));
+                    jobs = jobsService.selectList(new EntityWrapper<Jobs>().lt("job_money", 2).gt("job_creattime",date)
+                            .like("job_name",nei).orderBy("job_creattime",false));
                 }
 
 
@@ -237,42 +241,42 @@ public class jobcontroller extends AbstractController {
             } else if (money.equals("5")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 2)
-                            .lt("job_money", 5).lt("job_creattime",date));
+                            .lt("job_money", 5).lt("job_creattime",date).orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 2)
-                            .lt("job_money", 5).gt("job_creattime",date));
+                            .lt("job_money", 5).gt("job_creattime",date).orderBy("job_creattime",false));
                 }
 
             } else if (money.equals("8")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 5)
-                            .lt("job_money", 8).lt("job_creattime",date));
+                            .lt("job_money", 8).lt("job_creattime",date).orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 5)
-                            .lt("job_money", 8).gt("job_creattime",date));
+                            .lt("job_money", 8).gt("job_creattime",date).orderBy("job_creattime",false));
                 }
 
             } else if (money.equals("10")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 8)
-                            .lt("job_money", 10).lt("job_creattime",date));
+                            .lt("job_money", 10).lt("job_creattime",date).orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 8)
-                            .lt("job_money", 10).gt("job_creattime",date));
+                            .lt("job_money", 10).gt("job_creattime",date).orderBy("job_creattime",false));
                 }
 
             } else if (money.equals("10up")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 10)
-                            .lt("job_creattime",date));
+                            .lt("job_creattime",date).orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
 
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().ge("job_money", 10)
-                            .gt("job_creattime",date));
+                            .gt("job_creattime",date).orderBy("job_creattime",false));
                 }
 
             }
@@ -280,63 +284,71 @@ public class jobcontroller extends AbstractController {
             if (money.equals("")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .lt("job_creattime",date));
+                            .lt("job_creattime",date).orderBy("job_creattime",false));
                     System.out.println("++++"+jobs);
                     System.out.println("------here");
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .gt("job_creattime",date));
+                            .gt("job_creattime",date).orderBy("job_creattime",false));
                 }
 
             } else if (money.equals("2")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .lt("job_money", 2).lt("job_creattime",date));
+                            .lt("job_money", 2).lt("job_creattime",date).orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .lt("job_money", 2).gt("job_creattime",date));
+                            .lt("job_money", 2).gt("job_creattime",date).orderBy("job_creattime",false));
                 }
 
             } else if (money.equals("5")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .ge("job_money", 2).lt("job_money", 5).lt("job_creattime",date));
+                            .ge("job_money", 2).lt("job_money", 5).lt("job_creattime",date)
+                            .orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .ge("job_money", 2).lt("job_money", 5).gt("job_creattime",date));
+                            .ge("job_money", 2).lt("job_money", 5).gt("job_creattime",date)
+                            .orderBy("job_creattime",false));
                 }
 
             } else if (money.equals("8")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .ge("job_money", 5).lt("job_money", 8).lt("job_creattime",date));
+                            .ge("job_money", 5).lt("job_money", 8).lt("job_creattime",date)
+                            .orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .ge("job_money", 5).lt("job_money", 8).gt("job_creattime",date));
+                            .ge("job_money", 5).lt("job_money", 8).gt("job_creattime",date)
+                            .orderBy("job_creattime",false));
                 }
 
             } else if (money.equals("10")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .ge("job_money", 8).lt("job_money", 10).lt("job_creattime",date));
+                            .ge("job_money", 8).lt("job_money", 10).lt("job_creattime",date)
+                            .orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .ge("job_money", 8).lt("job_money", 10).gt("job_creattime",date));
+                            .ge("job_money", 8).lt("job_money", 10).gt("job_creattime",date)
+                            .orderBy("job_creattime",false));
                 }
 
             } else if (money.equals("10up")) {
                 if (time.equals("365")||time.equals("0")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .ge("job_money", 10).lt("job_creattime",date));
+                            .ge("job_money", 10).lt("job_creattime",date)
+                            .orderBy("job_creattime",false));
                 }
                 else if (time.equals("30")||time.equals("7")||time.equals("1")){
                     jobs = jobsService.selectList(new EntityWrapper<Jobs>().like("job_require", tee)
-                            .ge("job_money", 10).gt("job_creattime",date));
+                            .ge("job_money", 10).gt("job_creattime",date)
+                            .orderBy("job_creattime",false));
                 }
 
             }
@@ -465,9 +477,8 @@ public class jobcontroller extends AbstractController {
 //            获取加上uuid的文件名字
             String fileurl = list.get(0);
             String entryName = list.get(1);
-//            System.out.println("数据库的文件路径fileurl: "+fileurl);
-//            System.out.println("原本名字entryName: "+entryName);
 
+//            jobuser赋值
             Jobuser j = new Jobuser();
             Date date = new Date();
             j.setJuTime(date);
@@ -480,17 +491,9 @@ public class jobcontroller extends AbstractController {
             Alluser alluser = new Alluser();
             getAlluser g = new getAlluser();
             alluser = g.aa();
-//            System.out.println("----alluser "+alluser);
             j.setJuUsers(alluser.getAllId());
-//            System.out.println("allid"+alluser.getAllId());
-//            System.out.println("---j " +j);
+
             boolean i = jobuserService.insert(j);
-//            System.out.println("---i: "+i);
-//            String apply = "no";
-//            if(i==true){
-//                apply = "yes";
-//            }
-//            model.addAttribute("apply",apply);
         }
 
         return "redirect:/ForJob/mes/"+jid;
