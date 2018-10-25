@@ -158,7 +158,10 @@
                 </div>
                 <div class="messR">
                     <div class="piture">
-                        <img src="/static/img/img_hlj/alibaba2.png"/>
+                        <!--<img src="/static/img/img_hlj/alibaba2.png"/>-->
+                        <img :src="'/file/showImg/'+js.studio.stuImg"
+                             style="width: 250px;height: 200px"
+                        />
                     </div>
                     <div class="name">
                         <h3>{{js.studio.stuName}}</h3>
