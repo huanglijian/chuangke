@@ -18,11 +18,11 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
     druid:
-      url: jdbc:mysql://10.80.2.24:3306/creatcenter?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
-#      url: jdbc:mysql://localhost:3306/creatcenter?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
+#      url: jdbc:mysql://10.80.2.24:3306/creatcenter?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
+      url: jdbc:mysql://localhost:3306/creatcenter?serverTimezone=UTC&useSSL=false&autoReconnect=true&tinyInt1isBit=false&useUnicode=true&characterEncoding=utf8
       username: root
-      password: root
-#      password: 123456
+#      password: root
+      password: 123456
 
       # 连接池配置
       initial-size: 10
@@ -69,8 +69,8 @@ spring:
   redis:
     open: true # 是否开启redis缓存  true开启   false关闭
     database: 0
-    host: 10.80.2.24
-#    host: localhost
+    host: localhost
+#    host: 10.80.2.24
     port: 6379
     password:    # 密码（默认为空）
     timeout: 6000ms  # 连接超时时长（毫秒）

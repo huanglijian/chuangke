@@ -1,8 +1,14 @@
 package cn.ck;
 
+import cn.ck.controller.jobs.getAlluser;
 import cn.ck.entity.Jobs;
+import cn.ck.entity.Studio;
+import cn.ck.entity.bean.JobsStudio;
 import cn.ck.service.JobsService;
+import cn.ck.service.StudioService;
 import cn.ck.service.impl.JobsServiceImpl;
+import cn.ck.utils.ResponseBo;
+import cn.ck.utils.utils_hlj.fartime;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
@@ -14,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,12 +35,8 @@ public class test_hlj {
 
     @Autowired
     private JobsService jobsService;
-
-    @Before
-    public void before() {
-//        获取sqlaction
-
-    }
+    @Autowired
+    private StudioService studioService;
 
     @Test
     public void test() throws ParseException {
@@ -42,23 +46,24 @@ public class test_hlj {
     }
 
     @Test
-    public void testInsert(){
+    public void testInsert() {
         Date date = new Date();
         System.out.println(date);
-
         Jobs jobs = new Jobs();
-
-//        jobs.setJobId(3211);
         jobs.setJobCreattime(date);
-        jobs.setJobMoney("1231");
-        jobs.setJobName("999");
-        jobs.setJobStudio("cf20d9f3c7554dfdaa9a45a41494f2c4");
-        jobs.setJobIntro("4564564");
-        jobs.setJobRequire("1231231");
-        jobs.setJobState("4123");
-        jobs.setJobNum(12);
-        jobs.setJobType("45");
+        jobs.setJobMoney("4k");
+        jobs.setJobName("java工程师");
+        jobs.setJobStudio("13");
+        jobs.setJobIntro("java后端工程师后端工程师后端工程师后端工程师后端工程师后端工程师后端工程师后端工程师后端工程师后端工程师后端工程师");
+        jobs.setJobRequire("java后端工程师简介简介后端工程师简介简介后端工程师简介简介后端工程师简介简介后端工程师简介简介后端工程师简介简介后端工程师简介简介");
+        jobs.setJobState("招聘中。。");
+        jobs.setJobNum(3);
+        jobs.setJobType("全职");
 
+        jobsService.insertAllColumn(jobs);
+        jobsService.insertAllColumn(jobs);
+        jobsService.insertAllColumn(jobs);
+        jobsService.insertAllColumn(jobs);
         jobsService.insertAllColumn(jobs);
         jobsService.insertAllColumn(jobs);
         jobsService.insertAllColumn(jobs);
@@ -89,40 +94,103 @@ public class test_hlj {
     }
 
     @Test
-    public void testThird(){
+    public void testThird() {
         Jobs jobs = new Jobs();
 //        List<Jobs> list = new ArrayList<Jobs>();//创建集合对象；
         jobs = jobsService.selectById(3212);
         System.out.println(jobs);
     }
 
+    //    根据job id 删除
     @Test
-    public void testdelect(){
-
+    public void testdelect() {
         Date date = new Date();
         System.out.println(date);
-
         Jobs jobs = new Jobs();
-
-        jobs.setJobId(327);
-        jobs.setJobCreattime(date);
-        jobs.setJobMoney("1231");
-        jobs.setJobName("999");
-        jobs.setJobStudio("321");
-        jobs.setJobIntro("4564564");
-        jobs.setJobRequire("1231231");
-        jobs.setJobState("4123");
-        jobs.setJobNum(12);
-        jobs.setJobType("45");
-
-        boolean a = jobsService.delete(new EntityWrapper<Jobs>().eq("job_id",jobs.getJobId()));
-        System.out.println("======= "+a);
+        jobs.setJobId(333);
+        boolean a = jobsService.delete(new EntityWrapper<Jobs>().eq("job_id", jobs.getJobId()));
     }
 
     @Test
-    public void testSelectCount(){
+    public void testSelectCount() {
         int jNum = jobsService.selectCount(new EntityWrapper<Jobs>());
-        System.out.println("=========jNum "+jNum);
+        System.out.println("=========jNum " + jNum);
     }
 
+    @Test
+    public void test2() {
+        //        获得所有的招聘信息
+        List<Jobs> jobs = jobsService.selectList(new EntityWrapper<Jobs>());
+        System.out.println("===========all jobs " + jobs);
+        List<JobsStudio> jobsStudios = new ArrayList<>();
+
+
+        for (Jobs jobs1 : jobs) {
+            Studio studio = studioService.selectOne(new EntityWrapper<Studio>().eq("stu_id", jobs1.getJobStudio()));
+            JobsStudio jobsStudio = new JobsStudio();
+            jobsStudio.setJobs(jobs1);
+            jobsStudio.setStudio(studio);
+            jobsStudios.add(jobsStudio);
+        }
+
+        System.out.println("==== " + jobsStudios);
+//        return ResponseBo.ok().put("jobsStudios",jobsStudios);
+    }
+
+    @Test
+    public void selectStuName() {
+        Studio studio = studioService.selectOne(new EntityWrapper<Studio>().eq("stu_name", "45"));
+        if (studio == null) {
+            System.out.println("空");
+        } else {
+            System.out.println("非空");
+        }
+    }
+
+    @Test
+    public void ft() {
+//        Date date = new Date(118,9,1,12,1,1);      //2018.10.1  12:01:01
+        Date date = new Date(117, 9, 1, 12, 1, 1);
+
+//        System.out.println("========== "+date);
+        Date d = new Date();
+
+        long a = d.getTime() - date.getTime();
+        long b = d.getTime() - 31536000;
+        System.out.println("=======bb time: " + b);
+//        System.out.println("========tiem: "+a);
+//        System.out.println("=========="+d);
+        fartime f = new fartime();
+//        System.out.println("----------"+f.far(date));
+    }
+
+    @Test
+    public void aa() {
+        getAlluser g = new getAlluser();
+        g.aa();
+    }
+
+    @Test
+    public void bb() {
+
+//        Calendar cld = Calendar.getInstance();
+////
+//        int year = cld.get(Calendar.YEAR);
+//        System.out.println("年份：" + year);
+//        System.out.println("月份：" + (cld.get(Calendar.MONTH) + 1));
+//        System.out.println("日：" + cld.get(Calendar.DAY_OF_MONTH));
+
+        Date date = new Date(117, 9, 1, 12, 1, 1);
+        int y = date.getYear() + 1900;
+        System.out.println(y);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Calendar cld = Calendar.getInstance();
+
+        int year = cld.get(Calendar.YEAR);
+        System.out.println("年份：" + year);
+        System.out.println("月份：" + (cld.get(Calendar.MONTH) + 1));
+        System.out.println("日：" + cld.get(Calendar.DAY_OF_MONTH));
+    }
 }

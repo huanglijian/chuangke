@@ -10,4 +10,6 @@
         <result column="acc_foreid" property="accForeid" />
     </resultMap>
 
+
+
 </mapper>
